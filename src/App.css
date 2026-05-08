@@ -168,10 +168,12 @@ h1 {
 }
 
 .exercise-answer {
+  vertical-align: bottom;
   display: inline-block;
   width: 2ch;
   border-bottom: 3px solid #333;
   text-align: center;
+  line-height: 2.5rem;
 }
 
 .exercise-answer.answer-correct {
