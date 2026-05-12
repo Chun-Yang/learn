@@ -21,7 +21,7 @@ export function updateFluency(a: number, b: number, testScore: number): void {
   const scores = getFluencyScores()
   const key = getKey(a, b)
   if (key in scores) {
-    scores[key] = scores[key] * 0.9 + testScore * 0.1
+    scores[key] = scores[key] * 0.8 + testScore * 0.2
   } else {
     scores[key] = testScore
   }
