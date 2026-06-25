@@ -43,6 +43,39 @@ h1 {
   background: #c82333;
 }
 
+.mode-toggle {
+  display: flex;
+  gap: 0;
+}
+
+.mode-toggle .btn {
+  border-radius: 0;
+}
+
+.mode-toggle .btn:first-child {
+  border-radius: 0.5rem 0 0 0.5rem;
+}
+
+.mode-toggle .btn:last-child {
+  border-radius: 0 0.5rem 0.5rem 0;
+}
+
+.btn-mode {
+  background: #6c757d;
+}
+
+.btn-mode:hover {
+  background: #5a6268;
+}
+
+.btn-mode-active {
+  background: #4a90d9;
+}
+
+.btn-mode-active:hover {
+  background: #357abd;
+}
+
 /* Home */
 .home-buttons {
   display: flex;
@@ -76,6 +109,13 @@ h1 {
   font-size: 1rem;
   border: 2px solid #ccc;
   border-radius: 0.5rem;
+  box-sizing: border-box;
+  height: 2.75rem;
+}
+
+.addition-controls .btn {
+  height: 2.75rem;
+  box-sizing: border-box;
 }
 
 .addition-matrix-wrapper {

@@ -24,6 +24,19 @@ function SelectionPage({ title, operation, exercisePath, defaultDigits }: Props)
     () => new Set(defaultDigits)
   )
   const [count, setCount] = useState(10)
+  const [mode, setMode] = useState<'score' | 'practice'>('score')
+  const switchMode = (newMode: 'score' | 'practice') => {
+    setMode(newMode)
+    setChecked(prev => {
+      const next = new Set(prev)
+      if (newMode === 'practice') {
+        next.add(1)
+      } else {
+        if (!defaultDigits.includes(1)) next.delete(1)
+      }
+      return next
+    })
+  }
   const [, navigate] = useLocation()
   const [, setRefresh] = useState(0)
 
@@ -58,7 +71,6 @@ function SelectionPage({ title, operation, exercisePath, defaultDigits }: Props)
       <h1>{title}</h1>
 
       <div className="addition-controls">
-        <button className="btn" onClick={startPractice}>Start Practice</button>
         <select
           className="addition-select"
           value={count}
@@ -68,7 +80,23 @@ function SelectionPage({ title, operation, exercisePath, defaultDigits }: Props)
             <option key={n} value={n}>{n} problems</option>
           ))}
         </select>
-        <button className="btn btn-danger" onClick={() => setShowConfirm(true)}>Clear Scores</button>
+        <button className="btn" onClick={startPractice}>Start Practice</button>
+      </div>
+
+      <div className="addition-controls">
+        <div className="mode-toggle">
+          <button
+            className={`btn ${mode === 'score' ? 'btn-mode-active' : 'btn-mode'}`}
+            onClick={() => switchMode('score')}
+          >Score</button>
+          <button
+            className={`btn ${mode === 'practice' ? 'btn-mode-active' : 'btn-mode'}`}
+            onClick={() => switchMode('practice')}
+          >Learn</button>
+        </div>
+        {mode === 'score' && (
+          <button className="btn btn-danger" onClick={() => setShowConfirm(true)}>Clear Scores</button>
+        )}
       </div>
 
       {showConfirm && (
@@ -109,13 +137,19 @@ function SelectionPage({ title, operation, exercisePath, defaultDigits }: Props)
                 {DIGITS.map(col => {
                   const isGray = col < row || !checked.has(row) || !checked.has(col)
                   const score = col >= row ? getFluency(operation, row, col) : null
-                  const colorClass = isGray ? 'addition-cell-gray' : fluencyColor(score)
+                  const colorClass = isGray ? 'addition-cell-gray' : mode === 'score' ? fluencyColor(score) : ''
+                  const opSymbol = operation === 'addition' ? '+' : '×'
+                  const [big, small] = col >= row ? [col, row] : [row, col]
                   return (
                     <td
                       key={col}
                       className={`addition-cell ${colorClass}`}
                     >
-                      {!isGray && score !== null ? score.toFixed(2) : ''}
+                      {!isGray
+                        ? mode === 'score'
+                          ? score !== null ? score.toFixed(2) : ''
+                          : `${big}${opSymbol}${small}`
+                        : ''}
                     </td>
                   )
                 })}
