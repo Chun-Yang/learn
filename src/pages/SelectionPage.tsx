@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { ReactNode, useState } from 'react'
 import { Link, useLocation } from 'wouter'
 import { Operation, getFluency, clearFluencyScores } from '../fluency'
 
@@ -17,9 +17,10 @@ interface Props {
   operation: Operation
   exercisePath: string
   defaultDigits: number[]
+  startAction?: ReactNode
 }
 
-function SelectionPage({ title, operation, exercisePath, defaultDigits }: Props) {
+function SelectionPage({ title, operation, exercisePath, defaultDigits, startAction }: Props) {
   const [checked, setChecked] = useState<Set<number>>(
     () => new Set(defaultDigits)
   )
@@ -81,6 +82,7 @@ function SelectionPage({ title, operation, exercisePath, defaultDigits }: Props)
           ))}
         </select>
         <button className="btn" onClick={startPractice}>Start Practice</button>
+        {startAction}
       </div>
 
       <div className="addition-controls">

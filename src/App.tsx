@@ -6,6 +6,7 @@ import Addition from './pages/Addition'
 import AdditionExercise from './pages/AdditionExercise'
 import Multiplication from './pages/Multiplication'
 import MultiplicationExercise from './pages/MultiplicationExercise'
+import MultiplicationRandom from './pages/MultiplicationRandom'
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
           <Route path="/addition-exercise/:digits/:count" component={AdditionExercise} />
           <Route path="/multiplication" component={Multiplication} />
           <Route path="/multiplication-exercise/:digits/:count" component={MultiplicationExercise} />
+          <Route path="/multiplication-random" component={MultiplicationRandom} />
         </Switch>
       </div>
     </Router>
