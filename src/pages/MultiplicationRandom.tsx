@@ -68,13 +68,14 @@ function pickNext(store: RTStore, skipKey?: PairKey): [number, number] {
     return unseen[Math.floor(Math.random() * unseen.length)]
   }
 
-  // All seen — weighted by reaction time
+  // All seen — weighted by e^(reaction_time) for stronger skew toward slow pairs
   const candidates = pairs.filter(([a, b]) => pairKey(a, b) !== skipKey)
-  const total = candidates.reduce((sum, [a, b]) => sum + (store[pairKey(a, b)] ?? 0), 0)
+  const weights = candidates.map(([a, b]) => Math.exp((store[pairKey(a, b)] ?? 0) / 1000))
+  const total = weights.reduce((sum, w) => sum + w, 0)
   let r = Math.random() * total
-  for (const [a, b] of candidates) {
-    r -= store[pairKey(a, b)] ?? 0
-    if (r <= 0) return [a, b]
+  for (let i = 0; i < candidates.length; i++) {
+    r -= weights[i]
+    if (r <= 0) return candidates[i]
   }
   return candidates[candidates.length - 1]
 }
